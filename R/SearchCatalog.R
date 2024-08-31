@@ -56,17 +56,14 @@ SearchCatalog <- function(aoi, bbox, from, to, collection, as_data_frame = TRUE,
     if (missing(aoi) & missing(bbox)) {
         stop("Either aoi or bbox must be specified.")
     }
-
     # Check bbox is valid (and transform as.numeric if needed)
     if (!missing(bbox)) {
         bbox <- CheckBbox(bbox)
     }
-
     # authentication
     if (missing(client) & missing(token)) {
         stop("Either client or token must be specified.")
     }
-
     # determine the requested period
     if (is.na(from) || is.null(from)) {
         p1 <- ".."
@@ -101,14 +98,11 @@ SearchCatalog <- function(aoi, bbox, from, to, collection, as_data_frame = TRUE,
         # -> wrap collections in a list and use auto_unbox = TRUE
         bdy <- list("intersects" = jsonlite::fromJSON(geom), "datetime" = period, "collections" = list(collection), "limit" = limes)
     }
-
     # filter
     if (!is.null(filter)) {
         bdy$filter <- filter
         bdy$`filter-lang` <- "cql2-text"
     }
-    # cat(jsonlite::toJSON(bdy, auto_unbox = TRUE), file = "clipboard")
-    # cat(jsonlite::toJSON(bdy, auto_unbox = TRUE), file = "bdy.json")
     # build the request
     req <- httr2::request(paste0(url, "search"))
     req <- httr2::req_body_json(req, data = bdy, auto_unbox = TRUE)
@@ -168,8 +162,10 @@ SearchCatalog <- function(aoi, bbox, from, to, collection, as_data_frame = TRUE,
                 bounds <- PolyFromBbox(bbox)
             }
             doIntersect <- unlist(sf::st_intersects(sf::st_geometry(bounds), geom_col))
-            out[doIntersect, "areaCoverage"] <- 100.0 * sf::st_area(sf::st_intersection(sf::st_geometry(bounds), geom_col)) /
-                sf::st_area(sf::st_geometry(bounds))
+            # round to avoid areaCoverage not equal 100
+            out[doIntersect, "areaCoverage"] <- round(100.0 *
+                sf::st_area(sf::st_intersection(sf::st_geometry(bounds), geom_col)) /
+                sf::st_area(sf::st_geometry(bounds)), 3)
             sf::st_geometry(out) <- geom_col
             col_ord <- c("acquisitionDate", "tileCloudCover",  "areaCoverage", "satellite",
                          "acquisitionTimestampUTC", "acquisitionTimestampLocal", "sourceId",
