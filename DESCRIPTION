@@ -1,10 +1,13 @@
 Package: CDSE
 Type: Package
 Title: 'Copernicus Data Space Ecosystem' API Wrapper
-Version: 0.3.0
+Version: 0.3.2
 Authors@R: 
-    person("Zivan", "Karaman", , "zivan.karaman@gmail.com", role = c("aut", "cre", "cph"),
-           comment = c(ORCID = "0000-0002-8933-4589"))
+    c(person(given = "Zivan",
+             family = "Karaman", 
+             email = "zivan.karaman@gmail.com", 
+             role = c("aut", "cre", "cph"),
+             comment = c(ORCID = "0000-0002-8933-4589")))
 Description: Provides interface to the 'Copernicus Data Space Ecosystem' API 
     <https://dataspace.copernicus.eu/analyse/apis>, mainly for searching the catalog of available
     data from Copernicus Sentinel missions and obtaining the images for just the area of interest 
@@ -22,12 +25,12 @@ BugReports: https://github.com/zivankaraman/CDSE/issues
 License: AGPL-3
 Encoding: UTF-8
 Config/build/clean-inst-doc: FALSE
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Suggests: maps, parallel, rsi, tibble
 NeedsCompilation: no
-Packaged: 2025-09-02 10:37:46 UTC; zivankaraman
+Packaged: 2026-03-28 18:55:37 UTC; zivankaraman
 Author: Zivan Karaman [aut, cre, cph] (ORCID:
     <https://orcid.org/0000-0002-8933-4589>)
 Maintainer: Zivan Karaman <zivan.karaman@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-09-02 11:00:02 UTC
+Date/Publication: 2026-03-28 19:20:02 UTC
